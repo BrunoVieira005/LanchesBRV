@@ -1,4 +1,7 @@
-﻿namespace LanchesBRV;
+﻿using LanchesBRV.Context;
+using Microsoft.EntityFrameworkCore;
+
+namespace LanchesBRV;
 
 public class Startup
 {
@@ -14,14 +17,13 @@ public class Startup
     // Method to register services for dependency injection
     public void ConfigureServices(IServiceCollection services)
     {
+        // Registra o AppDbContext como um serviço da aplicação
+        services.AddDbContext<AppDbContext>(options =>
+        // Configuration.GetConnectionString busca o valor dentro de 'ConnectionStrings' no appsettings.json
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
         // Add MVC controllers and views
         services.AddControllersWithViews();
-
-        // Example: Register a custom service
-        // services.AddScoped<IMyService, MyService>();
-
-        // Example: Add configuration-bound settings
-        // services.Configure<MySettings>(Configuration.GetSection("MySettings"));
     }
 
     // Method to configure the HTTP request pipeline
