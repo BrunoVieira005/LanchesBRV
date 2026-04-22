@@ -1,4 +1,6 @@
-﻿using LanchesBRV.Repositories.Interfaces;
+﻿using LanchesBRV.Repositories;
+using LanchesBRV.Repositories.Interfaces;
+using LanchesBRV.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesBRV.Controllers
@@ -18,10 +20,14 @@ namespace LanchesBRV.Controllers
         // Action que será chamada pela rota (/Lanche/List)
         public IActionResult List()
         {
-            // Obtém os dados através do repository, com todos os lanches
-            var lanches = _lancheRepository.Lanches;
-            // Retorna a View padrão (List.cshtml) passando a lista de lanches como Model
-            return View(lanches);
+            // Instancia a ViewModel que servirá os dados para a View
+            var lanchesListViewModel = new LancheListViewModel();
+            // Preenche a propriedade Lanches da ViewModel com os dados vindos do repositório
+            lanchesListViewModel.Lanches = _lancheRepository.Lanches;
+            lanchesListViewModel.CategoriaAtual = "Categoria Atual";
+
+            // Retorna a View com as propriedades definidas na ViewModel
+            return View(lanchesListViewModel);
         }
     }
 }
