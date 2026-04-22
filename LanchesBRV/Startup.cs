@@ -1,4 +1,6 @@
 ﻿using LanchesBRV.Context;
+using LanchesBRV.Repositories;
+using LanchesBRV.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesBRV;
@@ -24,6 +26,11 @@ public class Startup
 
         // Add MVC controllers and views
         services.AddControllersWithViews();
+
+        // Define o mapeamento entre as Interfaces (contratos) e suas Implementações (classes)
+        // O escopo 'Transient' garante que uma NOVA instância seja criada toda vez que o serviço for solicitado
+        services.AddTransient<ILancheRepository, LancheRepository>();
+        services.AddTransient<ICategoriaRepository, CategoriaRepository>();
     }
 
     // Method to configure the HTTP request pipeline
