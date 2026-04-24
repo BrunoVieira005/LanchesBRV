@@ -31,6 +31,14 @@ public class Startup
         // O escopo 'Transient' garante que uma NOVA instância seja criada toda vez que o serviço for solicitado
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+
+        // Fornece uma instância única (Singleton) para acessar o contexto HTTP atual.
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+        // Cria o cache necessário para armazenar os dados da sessão na memória do servidor.
+        services.AddMemoryCache();
+        // Registra os serviços necessários para habilitar o suporte a Sessões no projeto.
+        services.AddSession();
     }
 
     // Method to configure the HTTP request pipeline
@@ -54,6 +62,8 @@ public class Startup
         app.UseRouting();          // Enable endpoint routing
 
         app.UseAuthorization();    // Authorization middleware
+
+        app.UseSession();
 
         // Define endpoint mappings
         app.UseEndpoints(endpoints =>
