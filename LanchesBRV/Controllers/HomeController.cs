@@ -1,4 +1,6 @@
 ﻿using LanchesBRV.Models;
+using LanchesBRV.Repositories.Interfaces;
+using LanchesBRV.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,9 +8,20 @@ namespace LanchesBRV.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILancheRepository _lancheRepository;
+
+        public HomeController(ILancheRepository lancheRepository)
+        {
+            _lancheRepository = lancheRepository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var HomeViewModel = new HomeViewModel
+            {
+                LanchesPreferidos = _lancheRepository.LanchesPreferidos
+            };
+            return View(HomeViewModel);
         }
 
         public IActionResult Privacy()
