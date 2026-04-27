@@ -1,4 +1,5 @@
 ﻿using LanchesBRV.Context;
+using LanchesBRV.Models;
 using LanchesBRV.Repositories;
 using LanchesBRV.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ public class Startup
         // O escopo 'Transient' garante que uma NOVA instância seja criada toda vez que o serviço for solicitado
         services.AddTransient<ILancheRepository, LancheRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped(sp => CarrinhoCompra.GetCarrinho(sp));
 
         // Fornece uma instância única (Singleton) para acessar o contexto HTTP atual.
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
